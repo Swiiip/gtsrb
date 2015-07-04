@@ -130,8 +130,7 @@ if not paths.filep(test_file) then                             -- check if set a
                 local cur_img = image.load(cur_dir)
                 cur_img = image.scale(cur_img, 32, 32)                          -- scales the input images
                 cur_img = image.rgb2yuv(cur_img)                                -- map from RGB to YUV space
-                test_imgs[#test_imgs + 1 ] = {cur_img, tonumber(labels[m])}     -- add image to the list of training images
-                print(labels[m])
+                test_imgs[#test_imgs + 1 ] = {cur_img, tonumber(labels[m])+1}     -- add image to the list of training images
                 m = m+1
             end
         end

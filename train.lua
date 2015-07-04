@@ -30,10 +30,11 @@ save_model_it      = params.save_model_iterations                               
 model_file         = paths.dirname(paths.thisfile()).."/"..params.model_name      -- save model under this path
 record_f_it        = params.save_f_iterations                                     -- save f every 200 batch iterations
 f_file             = paths.dirname(paths.thisfile()).."/"..params.f_name          -- save objective function graph under this path
+use_3_channels     = params.use_3_channels                                        -- boolean, use 1 or 3 channels for computation
 
 -- Classes
 classes = {}
-for i = 1, 43 do classes[i] = i.."" end
+for i = 1, 43 do classes[i] = (i-1).."" end
 
 -- this matrix records the current confusion across classes
 confusion = optim.ConfusionMatrix(classes)
@@ -77,21 +78,21 @@ function train()
 
         -- compute gradient for the batch
         for i=1, #batch_examples do
-            -- extract Y channel
-        if use_3_channels then
-            local input = train_set[shuffle[i]][1]
-        else
-            local input = train_set[shuffle[i]][1][{{1}, {}, {}}]
-        end
-            
+          local input 
+            if use_3_channels then
+                 input = batch_examples[i][1]
+            else
+                -- extract Y channel
+                 input = batch_examples[i][1][{{1}, {}, {}}]
+            end
             -- extract corresponding label
             local label = batch_examples[i][2]
-            
+
             -- forward propagation of the input through the model
             local output = model:forward(input)
 
             -- accumulate f
-            f = f+criterion:forward(output, label)
+            f = f+criterion:forward(output, label) -- the criterion takes classes from 1 to 43
 
             -- estimate df/dw
             local df_d0 = criterion:backward(output, label)
@@ -107,11 +108,11 @@ function train()
 
         -- save model every save_model_it iterations
         if m%save_model_it == 0 and save_model_it ~= 0 then
-            torch.save(paths.thisfile()..model_file,model)
+            torch.save(model_file,model)
         end
         -- record f every record_f_it iterations
         if m%record_f_it == 0 and record_f_i ~= 0 then
-            table.insert(paths.thisfile()..saved_f, f)
+            table.insert(saved_f, f)
             torch.save(f_file,saved_f)
         end
         model:updateParameters(learning_rate)

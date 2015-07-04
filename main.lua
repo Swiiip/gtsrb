@@ -23,7 +23,6 @@ cmd:text('Training a double 2-stage ConvNet with 1st-stage output fully connecte
 cmd:text()
 cmd:text('Options')
 -- general parameters
-cmd:option('-architecture',{32, 64, 100},'#neurons at each stage')
 cmd:option('-lr',0.1,'learning rate')
 cmd:option('-batch_size',1,'batch size for SGD')
 cmd:option('-use_3_channels',false, 'use YUV channels or just Y channel in the computation')
@@ -38,12 +37,13 @@ cmd:option('-train_set', 'gtsrb_train.t7','path of the training set')
 cmd:option('-valid_set', 'gtsrb_valid.t7','path of the validation set')
 cmd:option('-test_set',  'gtsrb_test.t7','path of the test set')
 -- pre processing options
-cmd:option('-global_contrast_norm',true,'use global contrast normalization for pre-processing')
-cmd:option('-local_contrast_norm',true,'use local contrast normalization for pre-processing')
+cmd:option('-no_global_contrast_norm',false,'don\'t use global contrast normalization for pre-processing')
+cmd:option('-no_local_contrast_norm',false,'don\'t use local contrast normalization for pre-processing')
 cmd:text()
 
 -- parse input params
 params = cmd:parse(arg)
+params.rundir = cmd:string('experiment', params, {dir=true})
 
 local script_dir = paths.dirname(paths.thisfile()).."/"
 

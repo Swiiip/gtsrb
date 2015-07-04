@@ -20,6 +20,7 @@
 require 'torch'
 
 function validate()
+    confusion:zero()
     print("Testing network")
     -- shuffle the validation test
     shuffle = torch.randperm(valid_set:size())
@@ -27,12 +28,12 @@ function validate()
     for i=1, valid_set:size() do
         -- progress bar
         xlua.progress(i, valid_set:size())
-
+        local input
         -- extract Y channel
-        if use_3_channels then
-            local input = valid_set[shuffle[i]][1]
+        if params.use_3_channels then
+             input = valid_set[shuffle[i]][1]
         else
-            local input = valid_set[shuffle[i]][1][{{1}, {}, {}}]
+             input = valid_set[shuffle[i]][1][{{1}, {}, {}}]
         end
         local label = valid_set[shuffle[i]][2]
 

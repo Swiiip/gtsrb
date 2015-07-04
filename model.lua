@@ -25,7 +25,7 @@ height = 32
 ninputs = nfeats*width*height
 
 -- hidden units, filter sizes:
-nstates = params.architecture
+nstates = {32, 64, 100}
 filtsize = 5
 poolsize = 2
 normkernel = image.gaussian1D(7)

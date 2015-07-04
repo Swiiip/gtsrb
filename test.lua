@@ -21,6 +21,7 @@ require 'torch'
 require 'optim'
 
 function test()
+    confusion:zero()
     print("Testing network")
     
     -- shuffle the validation test
@@ -29,17 +30,14 @@ function test()
     for i=1, test_set:size() do--test_set:size() do
         -- progress bar
         xlua.progress(i, test_set:size())
-
+        local input
         -- extract Y channel
-        if use_3_channels then
-            local input = test_set[shuffle[i]][1]
+        if params.use_3_channels then
+            input = test_set[shuffle[i]][1]
         else
-            local input = test_set[shuffle[i]][1][{{1}, {}, {}}]
+            input = test_set[shuffle[i]][1][{{1}, {}, {}}]
         end
-        print(shuffle[i])
-        print(test_set[9956])
         local label = test_set[shuffle[i]][2]
-        print(label)
         -- add prediction to confusion matrix
          confusion:add(model:forward(input), label)
     end
