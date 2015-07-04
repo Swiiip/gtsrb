@@ -54,9 +54,10 @@ stage2:add(nn.SpatialLPPooling(nstates[2],2,poolsize,poolsize,poolsize,poolsize)
 stage2:add(nn.SpatialSubtractiveNormalization(nstates[2], normkernel))
 stage2:add(nn.Reshape(nstates[2]*filtsize*filtsize))
 
--- identity module that keep stage1 features to feed final classifier
+-- identity module that keep stage1 features and down sample it to feed final classifier
 idmodule = nn.Sequential()
-idmodule:add(nn.Reshape((width-filtsize+1)*(width-filtsize+1)/4*nstates[1]))
+idmodule:add(nn.SpatialLPPooling(nstates[1],2,poolsize,poolsize,poolsize,poolsize))
+idmodule:add(nn.Reshape((width-filtsize+1)*(width-filtsize+1)/16*nstates[1]))
 
 -- add stage2 and identity modules to parallel module
 paral:add(stage2)
@@ -66,7 +67,7 @@ paral:add(idmodule)
 model:add(paral)
 
 -- stage 3 : standard 2-layer neural network
-model:add(nn.Linear((width-filtsize+1)*(width-filtsize+1)/4*nstates[1]+nstates[2]*filtsize*filtsize, nstates[3]))
+model:add(nn.Linear((width-filtsize+1)*(width-filtsize+1)/16*nstates[1]+nstates[2]*filtsize*filtsize, nstates[3]))
 model:add(nn.Tanh())
 model:add(nn.Linear(nstates[3], noutputs))
 

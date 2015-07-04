@@ -48,7 +48,7 @@ if train_set then
         
         local img = train_set[i][1][{{1}, {}, {}}]
         if global_contrast_norm then
-            --xlua.progress(i, train_set:size())
+            xlua.progress(i, train_set:size())
             local mean = img:mean()
             
             --mean substraction
