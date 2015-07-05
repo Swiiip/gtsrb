@@ -10,10 +10,6 @@
 --      + model described in model.lua
 --      + training set loaded with dataset.lua
 --
--- These results are based on Yann Lecun et al. work :
--- http://computer-vision-tjpn.googlecode.com/svn/trunk/documentation/
--- reference_papers/2-sermanet-ijcnn-11-mscnn.pdf
---
 -- Hugo Duthil
 ----------------------------------------------------------------------
 

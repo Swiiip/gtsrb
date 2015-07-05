@@ -27,7 +27,7 @@ function test()
     -- shuffle the validation test
     shuffle = torch.randperm(test_set:size())
 
-    for i=1, test_set:size() do--test_set:size() do
+    for i=1, test_set:size() do
         -- progress bar
         xlua.progress(i, test_set:size())
         local input

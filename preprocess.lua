@@ -20,8 +20,13 @@ require 'image'                               -- for image transforms
 require 'dp'                                  -- provides all sorts of preprocessing modules (LeCun LCN)
 
 
-global_contrast_norm = not params.no_global_contrast_norm
-local_contrast_norm  = not params.no_local_contrast_norm
+local script_dir = paths.dirname(paths.thisfile()).."/"
+
+global_contrast_norm  = not params.no_global_contrast_norm
+local_contrast_norm   = not params.no_local_contrast_norm
+
+pp_train_file         =   script_dir..params.pp_train_set               -- path to the training set
+pp_test_file          =   script_dir..params.pp_train_set               -- path to the training set
 
 if train_set then
 
@@ -68,31 +73,6 @@ if train_set then
         normalization:apply(dp.ImageView("bchw", train_set_tensor))
     end
 
-    -- if we use a validation set
-    if valid_set then
-        print("\nNormalization of validation set")
-
-        -- per-example Y channel mean substraction
-        for i = 1,valid_set:size() do
-            local img = valid_set[i][1][{ {1}, {}, {} }]
-            if global_contrast_norm then
-                xlua.progress(i, valid_set:size())
-                local mean = img:mean()
-                img:add(-mean)
-                local std = img:std()
-                img:div(std)
-            end
-            valid_tensors_list[i] = torch.Tensor(img)
-        end
-        local valid_set_tensor = nn.JoinTable(1):forward(valid_tensors_list)
-        valid_set_tensor = nn.Reshape(valid_set:size(), 1, 32, 32):forward(valid_set_tensor)
-
-        -- local contrast normalization of Y channel:
-        if local_contrast_norm then
-            normalization:apply(dp.ImageView("bchw", valid_set_tensor))
-        end
-    end
-
     print("Normalization of test set")
 
     -- per-example mean substraction
@@ -114,6 +94,8 @@ if train_set then
     if local_contrast_norm then
         normalization:apply(dp.ImageView("bchw", test_set_tensor))
     end
+
+
 else
     print("Databases missing, please run createDataSet.lua to build the databases, and load them with dataset.lua")
 end

@@ -21,50 +21,74 @@ require 'paths'
 
 local script_dir = paths.dirname(paths.thisfile()).."/"
 
-train_file         =   script_dir..params.train_set               -- path to the training set
-valid_file         =   script_dir..params.valid_set               -- path to the validation set
-test_file          =   script_dir..params.test_set                -- path to the test set
-use_validation_set =   params.use_validation_set
+train_file            =   script_dir..params.train_set                  -- path to the training set
+test_file             =   script_dir..params.test_set                   -- path to the test set
+pp_train_file         =   script_dir..params.pp_train_set               -- path to the training set
+pp_test_file          =   script_dir..params.pp_test_set               -- path to the training set
+use_pp_sets           =   params.use_pp_sets                            -- load already preprocessed sets
 
-print(train_file)
 
 -- Set the default type of Tensor to float
 torch.setdefaulttensortype('torch.FloatTensor')
 
-if paths.filep(train_file) then                         -- check if set exists
-    if not train_set then
-        print("\nLoading training set")
-        train_set = torch.load(train_file) 
-        function train_set:size() return #train_set end
-        print("Training set loaded")
-    else
-        print("\nTraining set already loaded")
-    end
-else
-    print("\nNo training set found")
-end
-if paths.filep(valid_file) then                         -- check if set exists
-    if not valid_set then
-        print("\nLoading validation set")
-        valid_set = torch.load(valid_file) 
-        function valid_set:size() return #valid_set end
-        print("Validation set loaded")
-    else
-        print("\nValidation set already loaded")
-    end
-else
-    print("\nNo validation set found")
-end
+-- if we don't use already preprocessed data sets, load them
+if not use_pp_sets then 
 
-if paths.filep(test_file) then                         -- check if set exists
-    if not test_set then
-        print("\nLoading test set")
-        test_set = torch.load(test_file) 
-        function test_set:size() return #test_set end
-        print("Test set loaded")
+    if paths.filep(train_file) then                         -- check if set exists
+        if not train_set then
+            print("\nLoading training set")
+            train_set = torch.load(train_file) 
+            function train_set:size() return #train_set end
+            print(train_file)
+            print("Training set loaded")
+        else
+            print("\nTraining set already loaded")
+        end
     else
-        print("\nTest set already loaded")
+        print("\nNo training set found")
     end
+
+    if paths.filep(test_file) then                         -- check if set exists
+        if not test_set then
+            print("\nLoading test set")
+            test_set = torch.load(test_file) 
+            function test_set:size() return #test_set end
+            print(test_file)
+            print("Test set loaded")
+        else
+            print("\nTest set already loaded")
+        end
+    else
+        print("\nNo test set found")
+    end
+
+-- if we use preprocessed data sets, load them    
 else
-    print("\nNo test set found")
+    if paths.filep(pp_train_file) then                         -- check if set exists
+        if not train_set then
+            print("\nLoading preprocessed training set")
+            train_set = torch.load(pp_train_file) 
+            function train_set:size() return #train_set end
+            print("Training set loaded")
+            print(pp_train_file)
+        else
+            print("\nTraining set already loaded")
+        end
+    else
+        print("\nNo training set found")
+    end
+
+    if paths.filep(pp_test_file) then                         -- check if set exists
+        if not test_set then
+            print("\nLoading preprocessed test set")
+            test_set = torch.load(pp_test_file) 
+            function test_set:size() return #test_set end
+            print(pp_test_file)
+            print("Test set loaded")
+        else
+            print("\nTest set already loaded")
+        end
+    else
+        print("\nNo test set found")
+    end
 end
