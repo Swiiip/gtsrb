@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------
--- This script contains the ConvNet single-scale model used for the 
--- gtsrb challenge
+-- This script describes the model of a single-scale convolutionnal 
+-- network architecture. It also defines a classification critierion.
 -- 
--- Prior to using this script, we need to generate the datasets with 
--- createDataSet.lua, then load the dataset in dataset.lua and pre-
--- process it using preProcess.lua.
+-- This is a 2-stage convolutionnal network with 32 features at first 
+-- stage and 64 at second stage. The bottom module is a 1-layer with
+-- 100 neurons classifier.
 --
 -- These results are based on Yann Lecun et al. work :
 -- http://computer-vision-tjpn.googlecode.com/svn/trunk/documentation/
