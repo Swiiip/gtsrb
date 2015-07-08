@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------
--- This script contains the pre-processing steps needed to ensure a 
--- quick learning.
+-- This script contains the pre-processing steps needed to accelerate 
+-- the learning.
 --
 -- Prior to using this script, we need to generate the datasets with 
 -- createDataSet.lua, and load them with dataset.lua.
@@ -34,9 +34,7 @@ if train_set then
     -- normalization of Y channel
 
     --  utility tables
-
     local train_tensors_list = {}
-    local valid_tensors_list = {}
     local test_tensors_list = {}
     
     -- define the normalization neighborhood:
@@ -58,13 +56,15 @@ if train_set then
             
             --mean substraction
             img:add(-mean)
-            local std = img:std()
+            --local std = img:std()
             
             -- std division
-            img:div(std)
+            --img:div(std)
         end
         train_tensors_list[i] = torch.Tensor(img)
     end
+
+    -- we need to reshape the input to feed the normalization operator
     local train_set_tensor = nn.JoinTable(1):forward(train_tensors_list)
     train_set_tensor = nn.Reshape(train_set:size(), 1, 32, 32):forward(train_set_tensor)
 
@@ -82,8 +82,8 @@ if train_set then
             xlua.progress(i, test_set:size())
             local mean = img:mean()
             img:add(-mean)
-            local std = img:std()
-            img:div(std)
+            --local std = img:std()
+            --img:div(std)
         end
         test_tensors_list[i] = torch.Tensor(img)
     end

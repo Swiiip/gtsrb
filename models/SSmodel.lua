@@ -62,6 +62,3 @@ weights:div(37919)
 
 -- classification criterion
 criterion = nn.CrossEntropyCriterion(weights)
-
-print("Model loaded :")
-print(model)

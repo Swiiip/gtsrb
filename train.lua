@@ -35,13 +35,6 @@ for i = 1, 43 do classes[i] = (i-1).."" end
 -- this matrix records the current confusion across classes
 confusion = optim.ConfusionMatrix(classes)
 
--- get the learnable parameters of the model and the gradient of the cost function
--- with respect to the learnable parameters
-if model then 
-    parameters, gradParameters= model:getParameters()
-else
-    print("No model found, please load a model with model.lua")
-end
 
 -- visualize ojective function with itorch
 saved_f = {}
@@ -50,6 +43,15 @@ saved_f = {}
 -- Main taining loop accross the entire dataset
 -- The optimization method is a classic batch sgd
 function train()
+
+    -- get the learnable parameters of the model and the gradient of the cost function
+    -- with respect to the learnable parameters
+    if model then 
+        local parameters, gradParameters= model:getParameters()
+    else
+        print("No model found, please load a model with model.lua")
+    end
+
     print("Training network")
     local m = 1
 
@@ -74,12 +76,12 @@ function train()
 
         -- compute gradient for the batch
         for i=1, #batch_examples do
-          local input 
+            local input 
             if use_3_channels then
-                 input = batch_examples[i][1]
+                input = batch_examples[i][1]
             else
                 -- extract Y channel
-                 input = batch_examples[i][1][{{1}, {}, {}}]
+                input = batch_examples[i][1][{{1}, {}, {}}]
             end
             -- extract corresponding label
             local label = batch_examples[i][2]
@@ -93,6 +95,7 @@ function train()
             -- estimate df/dw
             local df_d0 = criterion:backward(output, label)
             model:backward(input, df_d0)
+
 
             -- update confusion matrix
             confusion:add(output, label)
@@ -118,5 +121,6 @@ function train()
 
     -- print confusion matrix
     print(confusion)
+    torch.save("saves/confusion.t7", confusion)
     confusion:zero()
 end

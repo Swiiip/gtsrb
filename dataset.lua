@@ -24,17 +24,18 @@ local script_dir = paths.dirname(paths.thisfile()).."/"
 train_file            =   script_dir..params.train_set                  -- path to the training set
 test_file             =   script_dir..params.test_set                   -- path to the test set
 pp_train_file         =   script_dir..params.pp_train_set               -- path to the training set
-pp_test_file          =   script_dir..params.pp_test_set               -- path to the training set
+pp_test_file          =   script_dir..params.pp_test_set                -- path to the training set
 use_pp_sets           =   params.use_pp_sets                            -- load already preprocessed sets
 
 
 -- Set the default type of Tensor to float
 torch.setdefaulttensortype('torch.FloatTensor')
 
--- if we don't use already preprocessed data sets, load them
+-- if we don't use already preprocessed data sets
 if not use_pp_sets then 
 
-    if paths.filep(train_file) then                         -- check if set exists
+    -- check if train set already exists
+    if paths.filep(train_file) then                         
         if not train_set then
             print("\nLoading training set")
             train_set = torch.load(train_file) 
@@ -48,7 +49,9 @@ if not use_pp_sets then
         print("\nNo training set found")
     end
 
-    if paths.filep(test_file) then                         -- check if set exists
+    if paths.filep(test_file) then
+
+        -- check if test set already exists
         if not test_set then
             print("\nLoading test set")
             test_set = torch.load(test_file) 
@@ -62,9 +65,11 @@ if not use_pp_sets then
         print("\nNo test set found")
     end
 
--- if we use preprocessed data sets, load them    
+    -- if we use preprocessed data sets, load them    
 else
-    if paths.filep(pp_train_file) then                         -- check if set exists
+    
+    -- check if preprocessed train set already exists
+    if paths.filep(pp_train_file) then        
         if not train_set then
             print("\nLoading preprocessed training set")
             train_set = torch.load(pp_train_file) 
@@ -78,7 +83,8 @@ else
         print("\nNo training set found")
     end
 
-    if paths.filep(pp_test_file) then                         -- check if set exists
+    -- check if preprocessed test set already exists
+    if paths.filep(pp_test_file) then 
         if not test_set then
             print("\nLoading preprocessed test set")
             test_set = torch.load(pp_test_file) 

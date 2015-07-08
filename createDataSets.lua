@@ -1,18 +1,30 @@
 ----------------------------------------------------------------------
--- This script creates the training, validation and test sets for GTSRB
--- challenge from classes image directories.
+-- This script creates the training and test sets for GTSRB
+-- challenge from classes image directories and a csv file
+-- describing test images labels.
 --
 -- Images from the raw set are :
 --      + scaled to 32x32
 --      + converted to YUV space
 --
 -- 2 files are created :
---      + a training set (default "gtsrb_train.t7")
---      + a testation set (default "gtsrb_test.t7")
+--      + a training set (default "sets/gtsrb_train.t7")
+--      + a test set (default "sets/gtsrb_test.t7")
 --
--- These results are based on Yann Lecun et al. work :
--- http://computer-vision-tjpn.googlecode.com/svn/trunk/documentation/
--- reference_papers/2-sermanet-ijcnn-11-mscnn.pdf
+-- You must have downloaded these 3 files:
+--      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Training_Images.zip
+--      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_Images.zip
+--      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_GT.zip
+--
+--  If you did not download them in the same directory of this script,
+--  use -zip_train_dir, -zip_test_dir and -csv_labels_dir to use
+--  custom paths.
+--
+-- Just run th createDataSets.lua and it will create :
+--      + sets/gtsrb_train.t7 : training set file
+--      + sets/gtsrb_test.t7  : test set file
+--
+-- Run h createDataSets.lua -help for help on option commands
 --
 -- Hugo Duthil
 ----------------------------------------------------------------------

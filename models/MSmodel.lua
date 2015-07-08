@@ -1,10 +1,12 @@
 ----------------------------------------------------------------------
--- This script contains the ConvNet multi-scale model used for the 
--- gtsrb challenge
+-- This script describes the model of a multi-scale convolutionnal 
+-- network architecture. It also defines a classification critierion.
 -- 
--- Prior to using this script, we need to generate the datasets with 
--- createDataSet.lua, then load the dataset in dataset.lua and pre-
--- process it using preProcess.lua.
+-- This is a 2-stage convolutionnal network with 32 features at first 
+-- stage and 64 at second stage. The bottom module is a 1-layer with
+-- 100 neurons classifier. The output of the first stage is pooled and
+-- connected to the classifier as well to provide different scales of 
+-- receptive fields to the classifier.
 --
 -- These results are based on Yann Lecun et al. work :
 -- http://computer-vision-tjpn.googlecode.com/svn/trunk/documentation/
@@ -74,13 +76,7 @@ model:add(nn.Linear(nstates[3], noutputs))
 
 -- weighted criterion as the distribution is no uniform accross classes
 weights = torch.Tensor({210, 2220, 2250, 1410, 1980, 1860, 420, 1440, 1410, 1470, 2010, 1320, 2100, 2160, 780, 630, 420, 1110, 1200, 210, 360, 330, 390, 510, 270, 1500, 600, 240, 540, 270, 450, 780, 240, 689, 420, 1200, 390, 210, 2070, 300, 360, 240, 240})
-if use_validation_set then
-    weights:add(-30)
-end
 weights:div(37919)
 
 -- classification criterion
 criterion = nn.CrossEntropyCriterion(weights)
-
-print("Model loaded :")
-print(model)

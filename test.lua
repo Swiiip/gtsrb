@@ -1,18 +1,11 @@
 ----------------------------------------------------------------------
 -- This script contains the main test function 
 --
--- Prior to using this script, we need to generate the datasets with 
--- createDataSet.lua, and pre-process them using preProcess.lua.
---
--- It uses the ConvNet model described in model.lua
+-- It uses the model described in models/MSmodel.lua
 --
 -- Required :
---      + model described in model.lua
---      + test set loaded with dataset.lua
---
--- These results are based on Yann Lecun et al. work :
--- http://computer-vision-tjpn.googlecode.com/svn/trunk/documentation/
--- reference_papers/2-sermanet-ijcnn-11-mscnn.pdf
+--      + model 
+--      + test_set loaded with dataset.lua
 --
 -- Hugo Duthil
 ----------------------------------------------------------------------
@@ -21,10 +14,16 @@ require 'torch'
 require 'optim'
 
 function test()
+    -- Classes
+    classes = {}
+    for i = 1, 43 do classes[i] = (i-1).."" end
+
+    -- this matrix records the current confusion across classes
+    local confusion = optim.ConfusionMatrix(classes)
     confusion:zero()
     print("Testing network")
-    
-    -- shuffle the validation test
+
+    -- shuffle validation test
     shuffle = torch.randperm(test_set:size())
 
     for i=1, test_set:size() do
@@ -38,10 +37,15 @@ function test()
             input = test_set[shuffle[i]][1][{{1}, {}, {}}]
         end
         local label = test_set[shuffle[i]][2]
+
+        -- the output needs to a xxxStorage of size 43 (not 1x43)
+        local output = model:forward(input) 
+
         -- add prediction to confusion matrix
-         confusion:add(model:forward(input), label)
+        confusion:add(output, label)
     end
 
     print(confusion)
+    torch.save("saves/confusion.t7", confusion)
     confusion:zero()
 end
