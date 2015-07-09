@@ -25,9 +25,6 @@ local script_dir = paths.dirname(paths.thisfile()).."/"
 global_contrast_norm  = not params.no_global_contrast_norm
 local_contrast_norm   = not params.no_local_contrast_norm
 
-pp_train_file         =   script_dir..params.pp_train_set               -- path to the training set
-pp_test_file          =   script_dir..params.pp_train_set               -- path to the training set
-
 if train_set then
 
     -- Global normalization and local contrast

@@ -11,7 +11,7 @@
 --
 -- Required :
 --      + models/MSmodel.lua : describes a multi-scale architecture
---      + dataset.lua        : loads the training and test sets in Luajit
+--      + dataset.lua        : loads the training and test sets in Torch
 --      + train.lua          : loads a train() function using SGD optimization method
 --      + test.lua           : loads a test() function describing the testing method
 --
