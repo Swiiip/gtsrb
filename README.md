@@ -18,7 +18,7 @@ This will :
 
 Run `th createDataSets.lua -help` to see all available options
 
-# Load the interactive training/testing environment
+# Load the interactive environment
 
  This script loads the main global variables into Luajit :
  * **train_set**          : loaded by dataset.lua
