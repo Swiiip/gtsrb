@@ -73,7 +73,7 @@ if not params.use_pp_sets then
 print("\n--------------- preprocessing data -------------")
 dofile(script_dir.."preprocess.lua")
 
-    print("\nDo you want to save preprocessed datasets [y/n]? ( in "..params.pp_train_set.." and "..params.pp_train_set.." )")
+    print("\nDo you want to save preprocessed datasets [y/n]? ( in "..params.pp_train_set.." and "..params.pp_test_set.." )")
     if io.read() == "y" then
 
         -- saving pp training set --

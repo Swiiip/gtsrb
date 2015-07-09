@@ -28,13 +28,6 @@ record_f_it        = params.save_f_iterations                                   
 f_file             = paths.dirname(paths.thisfile()).."/"..params.f_name          -- save objective function graph under this path
 use_3_channels     = params.use_3_channels                                        -- boolean, use 1 or 3 channels for computation
 
--- Classes
-classes = {}
-for i = 1, 43 do classes[i] = (i-1).."" end
-
--- this matrix records the current confusion across classes
-confusion = optim.ConfusionMatrix(classes)
-
 
 -- visualize ojective function with itorch
 saved_f = {}
@@ -43,6 +36,13 @@ saved_f = {}
 -- Main taining loop accross the entire dataset
 -- The optimization method is a classic batch sgd
 function train()
+    -- Classes
+    classes = {}
+    for i = 1, 43 do classes[i] = (i-1).."" end
+
+    -- this matrix records the current confusion across classes
+    local confusion = optim.ConfusionMatrix(classes)
+    local confusion:zero()
 
     -- get the learnable parameters of the model and the gradient of the cost function
     -- with respect to the learnable parameters

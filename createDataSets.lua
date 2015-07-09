@@ -71,7 +71,7 @@ end
 
 -- download test labels
 if not paths.filep(params.csv_labels_dir) then
-    os.execute("wget http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_GT.zip")
+    os.execute("wget https://raw.githubusercontent.com/Swiiip/gtsrb/master/GT-final_test.csv")
 end
 
 -- Training set
