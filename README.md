@@ -33,7 +33,8 @@ Just run `th -i main.lua` to load the elements from the different modules and st
 
 The first time you run `th -i main.lua`, the data sets will be preprocessed using the code in *preprocessing.lua*. You will be asked if you want to save the preprocessed data. Once saved, you can skip this step by using `th -i main.lua -use_pp_sets`.
 
-If you want to use a different model for instance, just use `th -i main.lua -model "path/to/the/model"`.
+If you want to use a different model for instance, just use `th -i main.lua -model "path/to/the/model.lua"`.
+If you want to load an already trained model, use `model = torch.load("path/to/model.t7")`in Luajit.
 
 Run `th main.lua -help` to see all available options.
 
