@@ -32,6 +32,7 @@ use_3_channels     = params.use_3_channels                                      
 -- visualize ojective function with itorch
 saved_f = {}
 
+
 -- Main taining loop accross the entire dataset
 -- The optimization method is a classic batch sgd
 function train()
@@ -44,11 +45,11 @@ function train()
     confusion:zero()
 
     -- get the learnable parameters of the model and the gradient of the cost function
-    -- with respect to the learnable parameters
+    -- with respect to these  parameters
     if model then 
-        parameters, gradParameters= model:getParameters()
+         parameters, gradParameters= model:getParameters()
     else
-        print("No model found, please load a model with model.lua")
+        print("No model found, please load a model with models/MSmodel.lua")
     end
 
     print("Training network")
@@ -113,6 +114,8 @@ function train()
             table.insert(saved_f, f)
             torch.save(f_file,saved_f)
         end
+
+        -- update model parameters
         model:updateParameters(learning_rate)
         m =m+1
 
