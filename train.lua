@@ -32,7 +32,6 @@ use_3_channels     = params.use_3_channels                                      
 -- visualize ojective function with itorch
 saved_f = {}
 
-
 -- Main taining loop accross the entire dataset
 -- The optimization method is a classic batch sgd
 function train()
