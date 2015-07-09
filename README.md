@@ -1,3 +1,43 @@
+# Create datasets
+
+First, you need to create training and test datasets, run `th createDataSets.lua`.
+
+Requires:
+* csvigo
+* torch7
+* wget (UNIX standard command tool)
+* zip/unzip (UNIX standard command tool)
+
+This will :
+* Download training dataset
+* Download test dataset
+* Download test set labels
+* Unzip training dataset and save it to a torch7 compliant format
+* Unzip test dataset and labels, join them and save them to a torch7 compliant format
+* Erase temporary created directories on demand
+
+Run `th createDataSets.lua -help` to see all available options
+
+# Load the interactive environment
+
+ This script loads the main global variables into Luajit :
+ * **train_set**          : loaded by dataset.lua
+ * **test_set**           : loaded by dataset.lua
+ * **model**              : loaded by models/MSmodel.lua
+ * **learning_rate**      : loaded by train.lua
+ * **batch_size**         : loaded by train.lua
+
+This programming architecture is modular, you can use your own preprocessing/train/test functions as well as your models, as long as they respect the model/dataset interface described in the corresponding files (dataset.lua, models/MSmodel.lua, ...)
+
+Just run `th -i main.lua` to load the elements from the different modules and start interactively changing the model parameters, loading an aldready trained model, tweaking the parameters (learning_rate, batch_size, ...) and using the train() and test() functions.
+
+The first time you run `th -i main.lua`, the data sets will be preprocessed using the code in *preprocessing.lua*. You will be asked if you want to save the preprocessed data. Once saved, you can skip this step by using `th -i main.lua -use_pp_sets`.
+
+If you want to use a different model for instance, just use `th -i main.lua -model "path/to/the/model.lua"`.
+If you want to load an already trained model, use `model = torch.load("path/to/model.t7")`in Luajit.
+
+Run `th main.lua -help` to see all available options.
+
 # GTSRB Challenge
 
 a.k.a German Traffic Sign Recognition Benchmark :de: :no_entry: :no_bicycles:
