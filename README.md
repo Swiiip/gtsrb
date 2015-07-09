@@ -20,10 +20,11 @@ Run `th createDataSets.lua -help` to see all available options
 
 # Load the interactive environment
 
- This script loads the main global variables into Luajit :
- * **train_set**          : loaded by dataset.lua
- * **test_set**           : loaded by dataset.lua
- * **model**              : loaded by models/MSmodel.lua
+ This script loads the main global variables into Torch environment:
+ * **train_set**          : training set loaded by dataset.lua
+ * **test_set**           : test set loaded by dataset.lua
+ * **model**              : cNN model loaded by models/MSmodel.lua
+ * **criterion**          : a learning criterion load by models/MSmodel.lua
  * **learning_rate**      : loaded by train.lua
  * **batch_size**         : loaded by train.lua
 
@@ -34,7 +35,7 @@ Just run `th -i main.lua` to load the elements from the different modules and st
 The first time you run `th -i main.lua`, the data sets will be preprocessed using the code in *preprocessing.lua*. You will be asked if you want to save the preprocessed data. Once saved, you can skip this step by using `th -i main.lua -use_pp_sets`.
 
 If you want to use a different model for instance, just use `th -i main.lua -model "path/to/the/model.lua"`.
-If you want to load an already trained model, use `model = torch.load("path/to/model.t7")`in Luajit.
+If you want to load an already trained model, use `model = torch.load("path/to/model.t7")`in Torch.
 
 Run `th main.lua -help` to see all available options.
 
