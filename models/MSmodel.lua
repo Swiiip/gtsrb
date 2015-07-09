@@ -33,7 +33,7 @@ filtsize = 5
 poolsize = 2
 normkernel = image.gaussian1D(7)
 
--- A typical convolutional network, with locally-normalized hidden
+-- A convolutional network, with locally-normalized 
 -- units, and L2-pooling
 model = nn.Sequential()
 

@@ -11,20 +11,11 @@
 --      + a training set (default "sets/gtsrb_train.t7")
 --      + a test set (default "sets/gtsrb_test.t7")
 --
--- You must have downloaded these 3 files:
---      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Training_Images.zip
---      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_Images.zip
---      + http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_GT.zip
---
---  If you did not download them in the same directory of this script,
---  use -zip_train_dir, -zip_test_dir and -csv_labels_dir to use
---  custom paths.
---
 -- Just run th createDataSets.lua and it will create :
 --      + sets/gtsrb_train.t7 : training set file
 --      + sets/gtsrb_test.t7  : test set file
 --
--- Run h createDataSets.lua -help for help on option commands
+-- Run th createDataSets.lua -help for help on option commands
 --
 -- Hugo Duthil
 ----------------------------------------------------------------------
@@ -68,15 +59,24 @@ test_file          =   script_dir..params.save_test                -- name of th
 -- set the default type of Tensor to float
 torch.setdefaulttensortype('torch.FloatTensor')
 
--- if sets/ directory doesnt exist, create it
-if not paths.dir("sets/") then
-    os.execute("mkdir sets/")
-    print("sets/ dir created")
+-- download training set
+if not paths.filep(params.zip_train_dir) then
+    os.execute("wget http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Training_Images.zip")
+end
+
+-- download test set
+if not paths.filep(params.zip_test_dir) then
+    os.execute("wget http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_Images.zip")
+end
+
+-- download test labels
+if not paths.filep(params.csv_labels_dir) then
+    os.execute("wget http://benchmark.ini.rub.de/Dataset/GTSRB_Final_Test_GT.zip")
 end
 
 -- Training set
 -- parsing of all the images in the dir of zipped training set
-if not paths.filep(train_file) then                                                        -- check if training set already exists
+if not paths.filep(train_file) then                                                  -- check if training set already exists
     print("\nTraining set not found, building a new one")
     print("Unzipping "..train_images_dir..' in tmp_train/')
     os.execute('unzip -q '..train_images_dir..' -d "tmp_train/"')
@@ -123,7 +123,7 @@ if not paths.filep(train_file) then                                             
                     img_nbr = img_nbr+1
                 end
             end
-            print("Added class "..m.." to training set ("..img_nbr.." images)")     -- #images = #files - ., .. and *.csv
+            print("Added class "..m.." to training set ("..img_nbr.." images)")
             m = m+1
         end
     end

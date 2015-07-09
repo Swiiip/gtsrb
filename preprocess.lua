@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------
 -- This script contains the pre-processing steps needed to accelerate 
--- the learning.
+-- the learning phase.
 --
 -- Prior to using this script, we need to generate the datasets with 
 -- createDataSet.lua, and load them with dataset.lua.
