@@ -42,12 +42,12 @@ function train()
 
     -- this matrix records the current confusion across classes
     local confusion = optim.ConfusionMatrix(classes)
-    local confusion:zero()
+    confusion:zero()
 
     -- get the learnable parameters of the model and the gradient of the cost function
     -- with respect to the learnable parameters
     if model then 
-        local parameters, gradParameters= model:getParameters()
+        parameters, gradParameters= model:getParameters()
     else
         print("No model found, please load a model with model.lua")
     end
