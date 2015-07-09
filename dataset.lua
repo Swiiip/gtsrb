@@ -32,69 +32,41 @@ use_pp_sets           =   params.use_pp_sets                            -- load 
 torch.setdefaulttensortype('torch.FloatTensor')
 
 -- if we don't use already preprocessed data sets
-if not use_pp_sets then 
-
-    -- check if train set already exists
-    if paths.filep(train_file) then                         
-        if not train_set then
-            print("\nLoading training set")
-            train_set = torch.load(train_file) 
-            function train_set:size() return #train_set end
-            print(train_file)
-            print("Training set loaded")
-        else
-            print("\nTraining set already loaded")
-        end
-    else
-        print("\nNo training set found")
-    end
-
-    if paths.filep(test_file) then
-
-        -- check if test set already exists
-        if not test_set then
-            print("\nLoading test set")
-            test_set = torch.load(test_file) 
-            function test_set:size() return #test_set end
-            print(test_file)
-            print("Test set loaded")
-        else
-            print("\nTest set already loaded")
-        end
-    else
-        print("\nNo test set found")
-    end
-
-    -- if we use preprocessed data sets, load them    
+if use_pp_sets then 
+    tr_file = pp_train_file
+    ts_file = pp_test_file
 else
-    
-    -- check if preprocessed train set already exists
-    if paths.filep(pp_train_file) then        
-        if not train_set then
-            print("\nLoading preprocessed training set")
-            train_set = torch.load(pp_train_file) 
-            function train_set:size() return #train_set end
-            print("Training set loaded")
-            print(pp_train_file)
-        else
-            print("\nTraining set already loaded")
-        end
-    else
-        print("\nNo training set found")
-    end
+    tr_file = train_file
+    ts_file = test_file
+end
 
-    -- check if preprocessed test set already exists
-    if paths.filep(pp_test_file) then 
-        if not test_set then
-            print("\nLoading preprocessed test set")
-            test_set = torch.load(pp_test_file) 
-            function test_set:size() return #test_set end
-            print(pp_test_file)
-            print("Test set loaded")
-        else
-            print("\nTest set already loaded")
-        end
+-- check if train set already exists
+if paths.filep(tr_file) then                         
+    if not train_set then
+        print("\nLoading training set")
+        train_set = torch.load(tr_file) 
+        function train_set:size() return #train_set end
+        print(tr_file)
+        print("Training set loaded")
     else
-        print("\nNo test set found")
+        print("\nTraining set already loaded")
     end
+else
+    print("\nNo training set found")
+end
+
+if paths.filep(ts_file) then
+
+    -- check if test set already exists
+    if not test_set then
+        print("\nLoading test set")
+        test_set = torch.load(ts_file) 
+        function test_set:size() return #test_set end
+        print(ts_file)
+        print("Test set loaded")
+    else
+        print("\nTest set already loaded")
+    end
+else
+    print("\nNo test set found")
 end
