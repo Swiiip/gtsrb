@@ -53,10 +53,10 @@ if train_set then
             
             --mean substraction
             img:add(-mean)
-            --local std = img:std()
+            local std = img:std()
             
             -- std division
-            --img:div(std)
+            img:div(std)
         end
         train_tensors_list[i] = torch.Tensor(img)
     end
@@ -79,8 +79,8 @@ if train_set then
             xlua.progress(i, test_set:size())
             local mean = img:mean()
             img:add(-mean)
-            --local std = img:std()
-            --img:div(std)
+            local std = img:std()
+            img:div(std)
         end
         test_tensors_list[i] = torch.Tensor(img)
     end
