@@ -31,7 +31,7 @@ use_pp_sets           =   params.use_pp_sets                            -- load 
 -- Set the default type of Tensor to float
 torch.setdefaulttensortype('torch.FloatTensor')
 
--- if we don't use already preprocessed data sets
+-- if we use already preprocessed data sets
 if use_pp_sets then 
     tr_file = pp_train_file
     ts_file = pp_test_file

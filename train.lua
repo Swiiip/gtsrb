@@ -4,10 +4,10 @@
 -- Prior to using this script, we need to generate the datasets with 
 -- createDataSet.lua, and pre-process it using preProcess.lua.
 --
--- It uses the ConvNet model described in model.lua
+-- It uses the ConvNet model described in models/MSmodel.lua
 --
 -- Required :
---      + model described in model.lua
+--      + model described in modesl/MSmodel.lua
 --      + training set loaded with dataset.lua
 --
 -- Hugo Duthil
@@ -121,7 +121,7 @@ function train()
 
     end
 
-    -- print confusion matrix
+    -- print and save confusion matrix
     print(confusion)
     torch.save("saves/confusion.t7", confusion)
     confusion:zero()
