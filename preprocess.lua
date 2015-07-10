@@ -33,7 +33,7 @@ if train_set then
     --  utility tables
     local train_tensors_list = {}
     local test_tensors_list = {}
-    
+
     -- define the normalization neighborhood:
     local neighborhood = image.gaussian1D(7)
 
@@ -45,16 +45,16 @@ if train_set then
     -- per-example Y channel mean substraction
     -- normalize for each exemple
     for i = 1,train_set:size() do
-        
+
         local img = train_set[i][1][{{1}, {}, {}}]
         if global_contrast_norm then
             xlua.progress(i, train_set:size())
             local mean = img:mean()
-            
+
             --mean substraction
             img:add(-mean)
             local std = img:std()
-            
+
             -- std division
             img:div(std)
         end

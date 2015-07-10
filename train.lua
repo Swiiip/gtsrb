@@ -47,7 +47,7 @@ function train()
     -- get the learnable parameters of the model and the gradient of the cost function
     -- with respect to these  parameters
     if model then 
-         parameters, gradParameters= model:getParameters()
+        parameters, gradParameters= model:getParameters()
     else
         print("No model found, please load a model with models/MSmodel.lua")
     end
