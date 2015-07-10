@@ -15,7 +15,7 @@ require 'optim'
 
 function test()
     -- Classes
-    classes = {}
+    local classes = {}
     for i = 1, 43 do classes[i] = (i-1).."" end
 
     -- this matrix records the current confusion across classes

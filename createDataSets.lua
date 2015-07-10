@@ -45,8 +45,6 @@ require 'paths'                                               -- path manipulati
 require 'nn'                                                  -- neural networks
 require 'csvigo'                                              -- csv parsing
 
-samples = 30                                                  -- # of samples/track
-
 local script_dir = paths.dirname(paths.thisfile()).."/"
 
 train_images_dir   =   script_dir..params.zip_train_dir           -- directory of the zipped training set
